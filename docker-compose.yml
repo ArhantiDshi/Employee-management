@@ -1,0 +1,45 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: employee-management-mysql
+
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  app:
+    image: employee-management-api:latest
+    container_name: employee-management-api
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT}
+
+    ports:
+      - "8080:8080"
+
+
+volumes:
+  mysql_data:
