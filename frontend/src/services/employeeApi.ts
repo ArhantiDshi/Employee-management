@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api/v1',
-   auth: {
+  baseURL: `${import.meta.env.VITE_API_BASE_URL ?? ''}/api/v1`,
+  auth: {
     username: import.meta.env.VITE_API_USERNAME,
     password: import.meta.env.VITE_API_PASSWORD,
   },

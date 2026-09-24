@@ -1,7 +1,9 @@
 package com.portfolio.employee_management_api.config;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +19,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
+
+    @Value("${CORS_ALLOWED_ORIGINS:http://localhost:*,http://127.0.0.1:*}")
+    private String[] allowedOriginPatterns;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -53,12 +58,9 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // React/Vite frontend
+        // Frontend origins for local development and deployed Vercel app
         configuration.setAllowedOriginPatterns(
-            List.of(
-                "http://localhost:*",
-                "http://127.0.0.1:*"
-            )
+            Arrays.asList(allowedOriginPatterns)
         );
 
         // Allow HTTP methods

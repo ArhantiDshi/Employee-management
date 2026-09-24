@@ -84,6 +84,14 @@ useEffect(() => {
     )
   }
 
+  if (loading) {
+    return (
+      <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+        <p className="text-slate-600">Loading employees...</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       {/* Page heading */}

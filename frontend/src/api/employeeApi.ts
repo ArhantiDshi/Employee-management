@@ -8,7 +8,13 @@ const api = axios.create({
   },
 })
 
-export const getEmployees = async (page: number, pageSize: number, search: string, department: string, status: string) => {
+export const getEmployees = async (
+  _page: number,
+  _pageSize: number,
+  _search: string,
+  _department: string,
+  _status: string
+) => {
   const response = await api.get('/api/v1/employees')
 
   return response.data

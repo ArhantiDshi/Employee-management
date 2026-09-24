@@ -30,10 +30,7 @@ function CreateEmployee() {
 
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
-const auth = {
-  username: import.meta.env.VITE_API_USERNAME,
-  password: import.meta.env.VITE_API_PASSWORD,
-}
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
