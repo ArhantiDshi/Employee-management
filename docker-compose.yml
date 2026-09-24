@@ -23,7 +23,7 @@ services:
 
   app:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     image: employee-management-api:latest
     container_name: employee-management-api

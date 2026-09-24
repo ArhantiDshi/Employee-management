@@ -1,222 +1,254 @@
-# Employee Management API
+# Employee Management System
 
-A production-style RESTful Employee Management API built with **Java 21 and Spring Boot**.
+A full-stack employee management application built with React, Spring Boot, MySQL, and Docker. This project is designed to manage employee records, department assignments, status tracking, and essential HR operations through a clean and responsive dashboard.
 
-The project demonstrates a layered backend architecture with CRUD operations, validation, filtering, pagination, sorting, authentication, centralized exception handling, Swagger/OpenAPI documentation, automated testing, MySQL persistence, and Docker containerization.
+It is structured as a portfolio-ready full-stack project that demonstrates frontend development, backend API design, database integration, authentication, validation, and deployment readiness.
 
-## 🚀 Features
+## Why this project
 
-- Create employee
-- Get employee by ID
-- Update employee
-- Delete employee
-- Get employees with pagination
-- Search employees
-- Filter by department
-- Filter by employee status
-- Sort employee results
-- Request validation
-- Duplicate email validation
-- Centralized exception handling
-- Spring Security authentication
-- Swagger/OpenAPI documentation
-- Unit testing
-- Controller testing
-- MySQL database
-- Dockerized application
-- Docker Compose setup
-- Environment-based configuration
+This application solves a common business need: managing employee data in a centralized and structured way.
 
-## 🛠️ Technology Stack
+Organizations often need to:
+- create and update employee records
+- track department and employment status
+- search and filter staff members
+- review employee metrics in a dashboard
+- ensure data validation and secure access
 
-| Technology | Purpose |
-|---|---|
-| Java 21 | Programming language |
-| Spring Boot | Backend framework |
-| Spring Data JPA | Data access |
-| Hibernate | ORM |
-| MySQL 8 | Relational database |
-| Spring Security | Authentication |
-| Swagger / OpenAPI | API documentation |
-| JUnit | Testing |
-| Mockito | Mock-based testing |
-| Maven | Build and dependency management |
-| Docker | Containerization |
-| Docker Compose | Multi-container setup |
+This project brings those operations together in a practical full-stack system.
 
-## 🏗️ Architecture
+## Features
 
-The application follows a layered architecture:
+- Employee CRUD operations
+- Search, filter, and pagination
+- Department-based organization
+- Employment status tracking
+- Dashboard summary cards
+- Validation for employee data
+- Duplicate email handling
+- Secure backend with Spring Security
+- REST API documentation via Swagger/OpenAPI
+- MySQL persistence
+- Dockerized setup for local development
+- Automated backend tests
 
-```text
-                    Client
-                      |
-                      v
-              REST Controller
-                      |
-                      v
-                 Service Layer
-                      |
-                      v
-               Repository Layer
-                      |
-                      v
-                    MySQL
-```
+## Tech stack
 
-Supporting components include:
+### Frontend
+- React
+- TypeScript
+- Vite
+- CSS
+
+### Backend
+- Java 21
+- Spring Boot 4
+- Spring Data JPA
+- Spring Security
+- Hibernate
+- Maven
+
+### Database
+- MySQL 8
+
+### DevOps / tooling
+- Docker
+- Docker Compose
+- Swagger / OpenAPI
+- JUnit / Mockito
+
+## Architecture
+
+The project follows a layered full-stack architecture:
 
 ```text
-DTOs
-  |
-Validation
-  |
-Exception Handling
-  |
-Security
-  |
-JPA Specifications
-  |
-OpenAPI / Swagger
-  |
-Unit & Controller Tests
+Frontend (React + TypeScript)
+        |
+        v
+REST API (Spring Boot)
+        |
+        v
+Service Layer
+        |
+        v
+Repository / JPA Layer
+        |
+        v
+MySQL Database
 ```
 
-## 📁 Project Structure
+## Project structure
 
 ```text
-src/main/java/com/portfolio/employee_management_api
-│
-├── config
-│   ├── OpenApiConfig.java
-│   └── SecurityConfig.java
-│
-├── controller
-│   └── EmployeeController.java
-│
-├── dto
-│   ├── EmployeePageResponse.java
-│   └── EmployeeRequest.java
-│
-├── entity
-│   ├── Employee.java
-│   └── EmployeeStatus.java
-│
-├── exception
-│   ├── DuplicateEmailException.java
-│   ├── DuplicateEmployeeException.java
-│   ├── EmployeeNotFoundException.java
-│   └── GlobalExceptionHandler.java
-│
-├── repository
-│   └── EmployeeRepository.java
-│
-├── service
-│   ├── EmployeeService.java
-│   └── impl
-│       └── EmployeeServiceImpl.java
-│
-└── specification
-    └── EmployeeSpecification.java
+employee-management-api/
+├── backend/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/portfolio/employee_management_api/
+│   │   │   └── resources/
+│   │   └── test/
+│   ├── pom.xml
+│   ├── mvnw
+│   ├── mvnw.cmd
+│   ├── Dockerfile
+│   └── target/
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   ├── vite.config.ts
+│   └── index.html
+├── docker-compose.yml
+├── README.md
+├── .env
+├── .gitignore
+└── .dockerignore
 ```
 
-## 🔌 API Endpoints
+## API overview
 
-### Create Employee
+The backend exposes employee-related endpoints such as:
 
-```http
-POST /api/v1/employees
-```
+- GET /api/v1/employees
+- GET /api/v1/employees/{id}
+- POST /api/v1/employees
+- PUT /api/v1/employees/{id}
+- DELETE /api/v1/employees/{id}
 
-Creates a new employee.
+The API supports:
+- search
+- sorting
+- pagination
+- department filtering
+- employee status filtering
 
-### Get Employees
-
-```http
-GET /api/v1/employees
-```
-
-Supports:
-
-- Search
-- Department filtering
-- Status filtering
-- Pagination
-- Sorting
-
-Example:
-
-```http
-GET /api/v1/employees?search=john&department=IT&status=ACTIVE&page=0&size=5&sort=salary,desc
-```
-
-### Get Employee by ID
-
-```http
-GET /api/v1/employees/{id}
-```
-
-Returns a specific employee.
-
-### Update Employee
-
-```http
-PUT /api/v1/employees/{id}
-```
-
-Updates an existing employee.
-
-### Delete Employee
-
-```http
-DELETE /api/v1/employees/{id}
-```
-
-Deletes an employee.
-
-## 🔐 Security
-
-The application uses **Spring Security** with Basic Authentication.
-
-API requests requiring authentication can be tested using:
-
-```text
-Authorization: Basic Authentication
-```
-
-Configure the appropriate username and password for your local environment.
-
-## 📖 Swagger / OpenAPI
-
-Swagger UI is available after starting the application:
+Swagger UI is available once the backend is running:
 
 ```text
 http://localhost:8080/swagger-ui/index.html
 ```
 
-Swagger provides interactive documentation and allows the APIs to be tested directly from the browser.
+## Screenshots
 
-## 🗄️ Database
+Add screenshots here for a more professional portfolio presentation:
 
-The application uses **MySQL 8**.
+- Dashboard
+- Employee list
+- Create employee form
+- Edit employee form
+- Mobile responsiveness
 
-Database configuration is externalized through environment variables.
-
-Example:
-
-```text
-DB_URL=jdbc:mysql://mysql:3306/employee_management
-DB_USERNAME=employee_app
-DB_PASSWORD=employee_password
-```
-
-> Do not commit your `.env` file or production database credentials to GitHub.
-
-## 🐳 Running with Docker
+## Getting started
 
 ### Prerequisites
 
-Install:
+Make sure you have installed:
+- Java 21+
+- Maven
+- Node.js 18+
+- MySQL 8+
+- Docker and Docker Compose
+
+### 1) Clone the repository
+
+```bash
+git clone https://github.com/your-username/employee-management-api.git
+cd employee-management-api
+```
+
+### 2) Start the backend
+
+```bash
+cd backend
+mvn clean install
+mvn spring-boot:run
+```
+
+The backend will run on:
+
+```text
+http://localhost:8080
+```
+
+### 3) Start the frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend will run on:
+
+```text
+http://localhost:5173
+```
+
+### 4) Run with Docker Compose
+
+From the project root:
+
+```bash
+docker-compose up --build
+```
+
+This will start the app and MySQL service together.
+
+## Environment variables
+
+Create a local environment file if needed:
+
+```env
+DB_URL=jdbc:mysql://localhost:3306/employee_management
+DB_USERNAME=root
+DB_PASSWORD=root
+SERVER_PORT=8080
+```
+
+> Keep real production credentials out of source control.
+
+## Testing
+
+Run backend tests:
+
+```bash
+cd backend
+mvn test
+```
+
+## Portfolio value
+
+This project demonstrates:
+- full-stack development
+- REST API design
+- database integration
+- security and validation
+- testing discipline
+- Docker-based development workflow
+- real-world business application structure
+
+That makes it a strong candidate for a software portfolio, internship profile, or job application.
+
+## Future improvements
+
+Potential upgrades for a stronger portfolio project:
+- employee analytics charts
+- CSV export
+- user roles and authentication flow
+- dark mode
+- improved dashboard UX
+- deployment to cloud hosting
+- CI/CD pipeline with GitHub Actions
+- admin activity logs
+
+## Project status
+
+This project is currently a working full-stack application and is suitable for portfolio use, further enhancement, and deployment.
+
+## License
+
+This project is for educational and portfolio purposes.
 
 - Docker Desktop
 - Git

@@ -4,7 +4,7 @@ import com.portfolio.employee_management_api.dto.EmployeeRequest;
 import com.portfolio.employee_management_api.entity.Employee;
 import com.portfolio.employee_management_api.entity.EmployeeStatus;
 import com.portfolio.employee_management_api.exception.DuplicateEmailException;
-import com.portfolio.employee_management_api.exception.DuplicateEmployeeException;
+
 import com.portfolio.employee_management_api.exception.EmployeeNotFoundException;
 import com.portfolio.employee_management_api.repository.EmployeeRepository;
 import com.portfolio.employee_management_api.service.EmployeeService;
@@ -29,8 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee createEmployee(EmployeeRequest request) {
 
-      if (employeeRepository.existsByEmail(request.getEmail())) {
-    throw new DuplicateEmployeeException(
+    if (employeeRepository.existsByEmail(request.getEmail())) {
+    throw new DuplicateEmailException(
             "Employee with email " + request.getEmail() + " already exists"
     );
 }
