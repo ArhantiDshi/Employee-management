@@ -8,8 +8,11 @@ import {
 } from '../services/employeeApi'
 
 import { DEPARTMENTS } from '../constants/departments'
+import { useAuth } from '../auth/AuthContext'
 
 function Employees() {
+  const { role } = useAuth()
+  const canManageEmployees = role === 'ADMIN' || role === 'HR_MANAGER'
   const [employees, setEmployees] = useState<Employee[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -106,12 +109,12 @@ useEffect(() => {
           </p>
         </div>
 
-       <button
+       {canManageEmployees && <button
   onClick={() => navigate('/employees/new')}
   className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
 >
   + Add Employee
-</button>
+       </button>}
       </div>
 
       {/* Search and filters */}
@@ -219,9 +222,9 @@ useEffect(() => {
                   Status
                 </th>
 
-                <th className="px-6 py-3 text-sm font-semibold text-slate-600">
+                {canManageEmployees && <th className="px-6 py-3 text-sm font-semibold text-slate-600">
                   Actions
-                </th>
+                </th>}
               </tr>
             </thead>
 
@@ -259,7 +262,7 @@ useEffect(() => {
                     </span>
                   </td>
 
-                  <td className="px-6 py-4">
+                  {canManageEmployees && <td className="px-6 py-4">
                     <div className="flex gap-2">
                      <button
   onClick={() => navigate(`/employees/${employee.id}/edit`)}
@@ -275,7 +278,7 @@ useEffect(() => {
   Delete
 </button>
                     </div>
-                  </td>
+                  </td>}
                 </tr>
               ))}
             </tbody>

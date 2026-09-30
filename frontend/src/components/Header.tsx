@@ -1,7 +1,7 @@
 import { useAuth } from '../auth/AuthContext'
 
 function Header() {
-  const { logout } = useAuth()
+  const { logout, username } = useAuth()
   return (
     <header className="flex h-20 items-center justify-between border-b border-slate-200 bg-white/80 px-6 shadow-sm backdrop-blur-sm">
       <div>
@@ -13,7 +13,7 @@ function Header() {
 
       <div className="flex items-center gap-4">
         <span className="hidden rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600 sm:inline-flex">
-          Signed in
+          Signed in as {username}
         </span>
 
         <button

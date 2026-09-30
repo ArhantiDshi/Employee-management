@@ -248,7 +248,7 @@ Potential upgrades for a stronger portfolio project:
 
 ## Project status
 
-The project is deployed as a portfolio demo. The API requires a signed bearer token after administrator login. It is not intended for real employee data until multi-user account management, role controls, database migrations, and operational safeguards are added.
+The project is deployed as a portfolio demo. The API requires a signed bearer token after login. It has database-backed user accounts with ADMIN, HR_MANAGER, and VIEWER roles, and database schema changes are managed by Flyway. It is not intended for real employee data until operational safeguards such as login throttling, backups, and monitoring are in place.
 
 ## License
 

@@ -2,11 +2,12 @@ package com.portfolio.employee_management_api.controller;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -21,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.portfolio.employee_management_api.dto.LoginRequest;
 import com.portfolio.employee_management_api.dto.LoginResponse;
+import com.portfolio.employee_management_api.entity.UserAccount;
 
 import jakarta.validation.Valid;
 
@@ -48,18 +50,21 @@ public class AuthController {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.username(), request.password()));
-        } catch (BadCredentialsException exception) {
+        } catch (AuthenticationException exception) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
         }
 
         Instant issuedAt = Instant.now();
         Instant expiresAt = issuedAt.plus(30, ChronoUnit.MINUTES);
+        String scopes = authentication.getAuthorities().stream()
+                .map(authority -> authority.getAuthority().replaceFirst("^ROLE_", ""))
+                .collect(Collectors.joining(" "));
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(issuer)
                 .subject(authentication.getName())
                 .issuedAt(issuedAt)
                 .expiresAt(expiresAt)
-                .claim("scope", "admin")
+                .claim("scope", scopes)
                 .build();
 
         String token = jwtEncoder.encode(
@@ -68,6 +73,7 @@ public class AuthController {
                         claims))
                 .getTokenValue();
 
-        return new LoginResponse(token, expiresAt, authentication.getName());
+        UserAccount account = (UserAccount) authentication.getPrincipal();
+        return new LoginResponse(token, expiresAt, authentication.getName(), account.getRole().name());
     }
 }

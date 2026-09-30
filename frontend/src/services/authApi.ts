@@ -6,6 +6,7 @@ export interface LoginResponse {
   accessToken: string;
   expiresAt: string;
   username: string;
+  role: 'ADMIN' | 'HR_MANAGER' | 'VIEWER';
 }
 
 export const login = async (username: string, password: string) => {

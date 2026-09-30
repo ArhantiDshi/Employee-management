@@ -10,12 +10,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -56,8 +52,15 @@ public class SecurityConfig {
                 // Login is the only public API operation
                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
 
-                // All other versioned API operations require an admin token
-                .requestMatchers("/api/v1/**").hasAuthority("SCOPE_admin")
+                // Account administration is restricted to administrators.
+                .requestMatchers("/api/v1/users/**").hasAuthority("SCOPE_ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/v1/dashboard", "/api/v1/dashboard/**")
+                    .hasAnyAuthority("SCOPE_ADMIN", "SCOPE_HR_MANAGER", "SCOPE_VIEWER")
+                .requestMatchers(HttpMethod.GET, "/api/v1/employees", "/api/v1/employees/**")
+                    .hasAnyAuthority("SCOPE_ADMIN", "SCOPE_HR_MANAGER")
+                .requestMatchers("/api/v1/employees", "/api/v1/employees/**", "/api/v1/dashboard", "/api/v1/dashboard/**")
+                    .hasAnyAuthority("SCOPE_ADMIN", "SCOPE_HR_MANAGER")
+                .requestMatchers("/api/v1/**").hasAuthority("SCOPE_ADMIN")
 
                 // Everything else requires authentication
                 .anyRequest().authenticated()
@@ -107,21 +110,6 @@ public class SecurityConfig {
         );
 
         return source;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(
-            @Value("${app.admin.username}") String username,
-            @Value("${app.admin.password}") String password,
-            PasswordEncoder passwordEncoder) {
-
-        UserDetails admin = User.builder()
-            .username(username)
-            .password(passwordEncoder.encode(password))
-            .roles("ADMIN")
-            .build();
-
-        return new InMemoryUserDetailsManager(admin);
     }
 
     @Bean

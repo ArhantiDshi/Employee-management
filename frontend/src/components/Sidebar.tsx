@@ -1,6 +1,8 @@
 import { NavLink } from 'react-router-dom'
+import { useAuth } from '../auth/AuthContext'
 
 function Sidebar() {
+  const { role } = useAuth()
   return (
     <aside className="flex min-h-screen w-72 flex-col bg-slate-950 text-white shadow-2xl shadow-slate-200/40">
       <div className="border-b border-slate-800 px-6 py-6">
@@ -23,8 +25,20 @@ function Sidebar() {
         >
           Dashboard
         </NavLink>
+        {role === 'ADMIN' && (
+          <NavLink
+            to="/users"
+            className={({ isActive }) =>
+              `block rounded-xl px-4 py-3 text-sm font-medium transition ${isActive
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
+                : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`
+            }
+          >
+            User accounts
+          </NavLink>
+        )}
 
-        <NavLink
+        {role !== 'VIEWER' && <NavLink
           to="/employees"
           className={({ isActive }) =>
             `block rounded-xl px-4 py-3 text-sm font-medium transition ${
@@ -35,7 +49,7 @@ function Sidebar() {
           }
         >
           Employees
-        </NavLink>
+        </NavLink>}
       </nav>
 
       <div className="border-t border-slate-800 px-6 py-5 text-sm text-slate-400">

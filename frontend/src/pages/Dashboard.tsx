@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../auth/AuthContext'
 
 import {
   getDashboard,
@@ -6,6 +8,7 @@ import {
 } from '../services/dashboardApi'
 
 function Dashboard() {
+  const { role } = useAuth()
   const [dashboard, setDashboard] = useState<DashboardResponse | null>(null)
   const [dashboardLoading, setDashboardLoading] = useState(true)
   const [dashboardError, setDashboardError] = useState('')
@@ -82,16 +85,16 @@ function Dashboard() {
             </p>
             <h1 className="mt-3 text-3xl font-bold">Employee Overview</h1>
             <p className="mt-2 max-w-xl text-sm text-slate-300">
-              Welcome back, Admin. Here’s a quick snapshot of your workforce and team distribution.
+              Here’s a quick snapshot of your workforce and team distribution.
             </p>
           </div>
 
-          <button
-            type="button"
+          {(role === 'ADMIN' || role === 'HR_MANAGER') && <Link
+            to="/employees/new"
             className="inline-flex items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
           >
             + Add Employee
-          </button>
+          </Link>}
         </div>
       </div>
 
