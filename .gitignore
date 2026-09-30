@@ -1,5 +1,11 @@
 HELP.md
 .env
+.env.*
+!.env.example
+!**/.env.example
+node_modules/
+frontend/dist/
+frontend/.vercel/
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

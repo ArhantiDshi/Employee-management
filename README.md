@@ -197,16 +197,20 @@ This will start the app and MySQL service together.
 
 ## Environment variables
 
-Create a local environment file if needed:
+The backend requires credentials and a token signing key. Set these in your local shell or your hosting provider; do not commit them:
 
 ```env
 DB_URL=jdbc:mysql://localhost:3306/employee_management
 DB_USERNAME=root
 DB_PASSWORD=root
 SERVER_PORT=8080
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=<a-long-unique-password>
+JWT_SECRET=<base64-encoded-random-key-at-least-32-bytes>
+CORS_ALLOWED_ORIGINS=http://localhost:5173
 ```
 
-> Keep real production credentials out of source control.
+Generate a signing key with `openssl rand -base64 32`. Production variable setup is documented in [DEPLOYMENT.md](DEPLOYMENT.md). Never put the admin password or JWT signing key in a `VITE_` variable.
 
 ## Testing
 
@@ -244,7 +248,7 @@ Potential upgrades for a stronger portfolio project:
 
 ## Project status
 
-This project is currently a working full-stack application and is suitable for portfolio use, further enhancement, and deployment.
+The project is deployed as a portfolio demo. The API requires a signed bearer token after administrator login. It is not intended for real employee data until multi-user account management, role controls, database migrations, and operational safeguards are added.
 
 ## License
 

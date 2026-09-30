@@ -4,8 +4,18 @@ import Dashboard from './pages/Dashboard'
 import Employees from './pages/Employees'
 import CreateEmployee from './pages/CreateEmployee'
 import EditEmployee from './pages/EditEmployee'
+import Login from './pages/Login'
+import { AuthProvider, useAuth } from './auth/AuthContext'
 
 function App() {
+  return <AuthProvider><AppRoutes /></AuthProvider>
+}
+
+function AppRoutes() {
+  const { isAuthenticated } = useAuth()
+
+  if (!isAuthenticated) return <Login />
+
   return (
     <BrowserRouter>
       <Routes>
